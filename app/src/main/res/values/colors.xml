@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="backgroundblack">#0C0C0C</color>
+    <color name="operator">#506c2d</color>
+    <color name="clear">#CA7266</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="btn">#474444</color>
 </resources>
