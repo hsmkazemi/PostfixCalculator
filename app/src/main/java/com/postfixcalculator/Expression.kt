@@ -2,8 +2,9 @@ package com.postfixcalculator
 
 import java.util.Stack
 
-class Expression(var infixExpression: MutableList<String>) {
-    private fun infixToPostfix(): String {
+class Expression(private var infixExpression: MutableList<String>) {
+    private var postFix: String = ""
+    private fun infixToPostfix(){
         var result = ""
         val stack = Stack<String>()
         for (element in infixExpression) {
@@ -19,24 +20,26 @@ class Expression(var infixExpression: MutableList<String>) {
                 while (stack.isNotEmpty() && precedence(stack.peek()) >= precedence(element)) {
                     result += "${stack.pop()} "
                 }
+                stack.push(element)
             }
         }
         while (stack.isNotEmpty()) {
             result += "${stack.pop()} "
         }
-        return result
+        postFix = result
     }
 
     private fun precedence(operator: String): Int {
         return when (operator) {
-            "*", "/" -> 2
-            "-", "+" -> 1
+            "×", "÷" -> 2
+            "–", "+" -> 1
             else -> -1
 
         }
     }
 
-    fun evaluateExpression(postFix: String): Number {
+    fun evaluateExpression(): Number {
+        infixToPostfix()
         val stack = Stack<Double>()
         var i = 0
         while (i < postFix.length) {
@@ -54,10 +57,10 @@ class Expression(var infixExpression: MutableList<String>) {
                 val x = stack.pop()
                 val y = stack.pop()
                 when (postFix[i]) {
-                    '*' -> stack.push(x * y)
-                    '/' -> stack.push(y / x)
+                    '×' -> stack.push(x * y)
+                    '÷' -> stack.push(y / x)
                     '+' -> stack.push(x + y)
-                    '-' -> stack.push(y - x)
+                    '–' -> stack.push(y - x)
                 }
             }
             i++
